@@ -1,0 +1,7 @@
+node_modules
+# Keep environment variables out of version control
+.env
+dist
+#Heap for Queue
+#Explain me this project without lag -> Notes
+#Rubber Duck Technique - Communication

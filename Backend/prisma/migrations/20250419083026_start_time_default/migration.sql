@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "room" ALTER COLUMN "status" SET DEFAULT 'Live',
+ALTER COLUMN "start_time" SET DEFAULT CURRENT_TIMESTAMP;

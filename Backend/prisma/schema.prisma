@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user{
+  id Int @default(autoincrement()) @id
+  email String @unique
+  password String
+  name String
+  wins Int @default(0)
+  matches Int @default(0)
+  wallet wallet?
+  status Boolean @default(true)
+  notification notification[]
+}
+
+model wallet{
+  id Int @default(autoincrement()) @id
+  balance Float @default(0)
+  userid Int @unique
+  user user @relation(fields: [userid], references: [id],onDelete: Cascade )
+  transaction transaction[]
+}
+
+enum notification_type{
+  Invite
+  Credit
+  Debit
+  General
+}
+
+model notification{
+  id Int @default(autoincrement()) @id
+  userid Int
+  user user @relation(fields: [userid],references: [id], onDelete: Cascade)
+  type notification_type @default(General)
+  message String
+  time DateTime @default(now())
+  roomid Int?
+  transactionid Int?
+}
+
+enum transaction_type{
+  Credit
+  Debit
+}
+model transaction{
+  id Int @default(autoincrement()) @id
+  walletid Int
+  wallet wallet @relation(fields: [walletid],references: [id], onDelete: Cascade)
+  type transaction_type
+  amount Int
+}
+
+enum room_status{
+  Not_Started
+  Live
+  Completed
+}
+enum room_type{
+  Private
+  Public
+}
+model room{
+  id Int @default(autoincrement()) @id
+  creatorid Int
+  highest_bid Int @default(0)
+  status room_status @default(Live)
+  room_type room_type @default(Public)
+  start_time DateTime @default(now())
+  chat chat[]
+  details details[]
+}
+
+model chat{
+  id Int @default(autoincrement()) @id
+  roomid Int
+  room room @relation(fields: [roomid],references: [id], onDelete: Cascade)
+  playerid Int 
+  message String
+  time DateTime
+}
+
+enum room_move{
+  NotStarted
+  Dealer
+  SmallBlind
+  BigBlind
+  HoleCards
+  PreFlop
+  Flop
+  PreTurn
+  Turn
+  PreRiver
+  River
+  PreShowdown
+  Showdown
+}
+enum player_action{
+  NotStarted
+  Fold
+  Check
+  Call
+  Raise
+  AllIn
+}
+model details{
+  id Int @default(autoincrement()) @id
+  roomid Int
+  room room @relation(fields: [roomid],references: [id], onDelete: Cascade)
+  playerid Int 
+  move room_move @default(NotStarted)
+  action player_action @default(NotStarted)
+  bet Int
+  time DateTime
+}
