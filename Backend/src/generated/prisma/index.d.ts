@@ -74,7 +74,8 @@ export type transaction_type = (typeof transaction_type)[keyof typeof transactio
 export const room_status: {
   Not_Started: 'Not_Started',
   Live: 'Live',
-  Completed: 'Completed'
+  Completed: 'Completed',
+  Halt: 'Halt'
 };
 
 export type room_status = (typeof room_status)[keyof typeof room_status]
@@ -86,6 +87,22 @@ export const room_type: {
 };
 
 export type room_type = (typeof room_type)[keyof typeof room_type]
+
+
+export const member_type: {
+  Shorthand: 'Shorthand',
+  Longhand: 'Longhand'
+};
+
+export type member_type = (typeof member_type)[keyof typeof member_type]
+
+
+export const pace: {
+  Fast: 'Fast',
+  Standard: 'Standard'
+};
+
+export type pace = (typeof pace)[keyof typeof pace]
 
 
 export const room_move: {
@@ -135,6 +152,14 @@ export const room_status: typeof $Enums.room_status
 export type room_type = $Enums.room_type
 
 export const room_type: typeof $Enums.room_type
+
+export type member_type = $Enums.member_type
+
+export const member_type: typeof $Enums.member_type
+
+export type pace = $Enums.pace
+
+export const pace: typeof $Enums.pace
 
 export type room_move = $Enums.room_move
 
@@ -6109,12 +6134,14 @@ export namespace Prisma {
     id: number | null
     creatorid: number | null
     highest_bid: number | null
+    blinds: number | null
   }
 
   export type RoomSumAggregateOutputType = {
     id: number | null
     creatorid: number | null
     highest_bid: number | null
+    blinds: number | null
   }
 
   export type RoomMinAggregateOutputType = {
@@ -6123,7 +6150,9 @@ export namespace Prisma {
     highest_bid: number | null
     status: $Enums.room_status | null
     room_type: $Enums.room_type | null
-    start_time: Date | null
+    blinds: number | null
+    member: $Enums.member_type | null
+    roompace: $Enums.pace | null
   }
 
   export type RoomMaxAggregateOutputType = {
@@ -6132,7 +6161,9 @@ export namespace Prisma {
     highest_bid: number | null
     status: $Enums.room_status | null
     room_type: $Enums.room_type | null
-    start_time: Date | null
+    blinds: number | null
+    member: $Enums.member_type | null
+    roompace: $Enums.pace | null
   }
 
   export type RoomCountAggregateOutputType = {
@@ -6141,7 +6172,9 @@ export namespace Prisma {
     highest_bid: number
     status: number
     room_type: number
-    start_time: number
+    blinds: number
+    member: number
+    roompace: number
     _all: number
   }
 
@@ -6150,12 +6183,14 @@ export namespace Prisma {
     id?: true
     creatorid?: true
     highest_bid?: true
+    blinds?: true
   }
 
   export type RoomSumAggregateInputType = {
     id?: true
     creatorid?: true
     highest_bid?: true
+    blinds?: true
   }
 
   export type RoomMinAggregateInputType = {
@@ -6164,7 +6199,9 @@ export namespace Prisma {
     highest_bid?: true
     status?: true
     room_type?: true
-    start_time?: true
+    blinds?: true
+    member?: true
+    roompace?: true
   }
 
   export type RoomMaxAggregateInputType = {
@@ -6173,7 +6210,9 @@ export namespace Prisma {
     highest_bid?: true
     status?: true
     room_type?: true
-    start_time?: true
+    blinds?: true
+    member?: true
+    roompace?: true
   }
 
   export type RoomCountAggregateInputType = {
@@ -6182,7 +6221,9 @@ export namespace Prisma {
     highest_bid?: true
     status?: true
     room_type?: true
-    start_time?: true
+    blinds?: true
+    member?: true
+    roompace?: true
     _all?: true
   }
 
@@ -6278,7 +6319,9 @@ export namespace Prisma {
     highest_bid: number
     status: $Enums.room_status
     room_type: $Enums.room_type
-    start_time: Date
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
     _count: RoomCountAggregateOutputType | null
     _avg: RoomAvgAggregateOutputType | null
     _sum: RoomSumAggregateOutputType | null
@@ -6306,7 +6349,9 @@ export namespace Prisma {
     highest_bid?: boolean
     status?: boolean
     room_type?: boolean
-    start_time?: boolean
+    blinds?: boolean
+    member?: boolean
+    roompace?: boolean
     chat?: boolean | room$chatArgs<ExtArgs>
     details?: boolean | room$detailsArgs<ExtArgs>
     _count?: boolean | RoomCountOutputTypeDefaultArgs<ExtArgs>
@@ -6318,7 +6363,9 @@ export namespace Prisma {
     highest_bid?: boolean
     status?: boolean
     room_type?: boolean
-    start_time?: boolean
+    blinds?: boolean
+    member?: boolean
+    roompace?: boolean
   }, ExtArgs["result"]["room"]>
 
   export type roomSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6327,7 +6374,9 @@ export namespace Prisma {
     highest_bid?: boolean
     status?: boolean
     room_type?: boolean
-    start_time?: boolean
+    blinds?: boolean
+    member?: boolean
+    roompace?: boolean
   }, ExtArgs["result"]["room"]>
 
   export type roomSelectScalar = {
@@ -6336,10 +6385,12 @@ export namespace Prisma {
     highest_bid?: boolean
     status?: boolean
     room_type?: boolean
-    start_time?: boolean
+    blinds?: boolean
+    member?: boolean
+    roompace?: boolean
   }
 
-  export type roomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "creatorid" | "highest_bid" | "status" | "room_type" | "start_time", ExtArgs["result"]["room"]>
+  export type roomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "creatorid" | "highest_bid" | "status" | "room_type" | "blinds" | "member" | "roompace", ExtArgs["result"]["room"]>
   export type roomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     chat?: boolean | room$chatArgs<ExtArgs>
     details?: boolean | room$detailsArgs<ExtArgs>
@@ -6360,7 +6411,9 @@ export namespace Prisma {
       highest_bid: number
       status: $Enums.room_status
       room_type: $Enums.room_type
-      start_time: Date
+      blinds: number
+      member: $Enums.member_type
+      roompace: $Enums.pace
     }, ExtArgs["result"]["room"]>
     composites: {}
   }
@@ -6791,7 +6844,9 @@ export namespace Prisma {
     readonly highest_bid: FieldRef<"room", 'Int'>
     readonly status: FieldRef<"room", 'room_status'>
     readonly room_type: FieldRef<"room", 'room_type'>
-    readonly start_time: FieldRef<"room", 'DateTime'>
+    readonly blinds: FieldRef<"room", 'Int'>
+    readonly member: FieldRef<"room", 'member_type'>
+    readonly roompace: FieldRef<"room", 'pace'>
   }
     
 
@@ -9541,7 +9596,9 @@ export namespace Prisma {
     highest_bid: 'highest_bid',
     status: 'status',
     room_type: 'room_type',
-    start_time: 'start_time'
+    blinds: 'blinds',
+    member: 'member',
+    roompace: 'roompace'
   };
 
   export type RoomScalarFieldEnum = (typeof RoomScalarFieldEnum)[keyof typeof RoomScalarFieldEnum]
@@ -9716,6 +9773,34 @@ export namespace Prisma {
    * Reference to a field of type 'room_type[]'
    */
   export type ListEnumroom_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'room_type[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'member_type'
+   */
+  export type Enummember_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'member_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'member_type[]'
+   */
+  export type ListEnummember_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'member_type[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'pace'
+   */
+  export type EnumpaceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'pace'>
+    
+
+
+  /**
+   * Reference to a field of type 'pace[]'
+   */
+  export type ListEnumpaceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'pace[]'>
     
 
 
@@ -9998,7 +10083,9 @@ export namespace Prisma {
     highest_bid?: IntFilter<"room"> | number
     status?: Enumroom_statusFilter<"room"> | $Enums.room_status
     room_type?: Enumroom_typeFilter<"room"> | $Enums.room_type
-    start_time?: DateTimeFilter<"room"> | Date | string
+    blinds?: IntFilter<"room"> | number
+    member?: Enummember_typeFilter<"room"> | $Enums.member_type
+    roompace?: EnumpaceFilter<"room"> | $Enums.pace
     chat?: ChatListRelationFilter
     details?: DetailsListRelationFilter
   }
@@ -10009,7 +10096,9 @@ export namespace Prisma {
     highest_bid?: SortOrder
     status?: SortOrder
     room_type?: SortOrder
-    start_time?: SortOrder
+    blinds?: SortOrder
+    member?: SortOrder
+    roompace?: SortOrder
     chat?: chatOrderByRelationAggregateInput
     details?: detailsOrderByRelationAggregateInput
   }
@@ -10023,7 +10112,9 @@ export namespace Prisma {
     highest_bid?: IntFilter<"room"> | number
     status?: Enumroom_statusFilter<"room"> | $Enums.room_status
     room_type?: Enumroom_typeFilter<"room"> | $Enums.room_type
-    start_time?: DateTimeFilter<"room"> | Date | string
+    blinds?: IntFilter<"room"> | number
+    member?: Enummember_typeFilter<"room"> | $Enums.member_type
+    roompace?: EnumpaceFilter<"room"> | $Enums.pace
     chat?: ChatListRelationFilter
     details?: DetailsListRelationFilter
   }, "id">
@@ -10034,7 +10125,9 @@ export namespace Prisma {
     highest_bid?: SortOrder
     status?: SortOrder
     room_type?: SortOrder
-    start_time?: SortOrder
+    blinds?: SortOrder
+    member?: SortOrder
+    roompace?: SortOrder
     _count?: roomCountOrderByAggregateInput
     _avg?: roomAvgOrderByAggregateInput
     _max?: roomMaxOrderByAggregateInput
@@ -10051,7 +10144,9 @@ export namespace Prisma {
     highest_bid?: IntWithAggregatesFilter<"room"> | number
     status?: Enumroom_statusWithAggregatesFilter<"room"> | $Enums.room_status
     room_type?: Enumroom_typeWithAggregatesFilter<"room"> | $Enums.room_type
-    start_time?: DateTimeWithAggregatesFilter<"room"> | Date | string
+    blinds?: IntWithAggregatesFilter<"room"> | number
+    member?: Enummember_typeWithAggregatesFilter<"room"> | $Enums.member_type
+    roompace?: EnumpaceWithAggregatesFilter<"room"> | $Enums.pace
   }
 
   export type chatWhereInput = {
@@ -10411,7 +10506,9 @@ export namespace Prisma {
     highest_bid?: number
     status?: $Enums.room_status
     room_type?: $Enums.room_type
-    start_time?: Date | string
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
     chat?: chatCreateNestedManyWithoutRoomInput
     details?: detailsCreateNestedManyWithoutRoomInput
   }
@@ -10422,7 +10519,9 @@ export namespace Prisma {
     highest_bid?: number
     status?: $Enums.room_status
     room_type?: $Enums.room_type
-    start_time?: Date | string
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
     chat?: chatUncheckedCreateNestedManyWithoutRoomInput
     details?: detailsUncheckedCreateNestedManyWithoutRoomInput
   }
@@ -10432,7 +10531,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
     chat?: chatUpdateManyWithoutRoomNestedInput
     details?: detailsUpdateManyWithoutRoomNestedInput
   }
@@ -10443,7 +10544,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
     chat?: chatUncheckedUpdateManyWithoutRoomNestedInput
     details?: detailsUncheckedUpdateManyWithoutRoomNestedInput
   }
@@ -10454,7 +10557,9 @@ export namespace Prisma {
     highest_bid?: number
     status?: $Enums.room_status
     room_type?: $Enums.room_type
-    start_time?: Date | string
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
   }
 
   export type roomUpdateManyMutationInput = {
@@ -10462,7 +10567,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
   }
 
   export type roomUncheckedUpdateManyInput = {
@@ -10471,7 +10578,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
   }
 
   export type chatCreateInput = {
@@ -10981,6 +11090,20 @@ export namespace Prisma {
     not?: NestedEnumroom_typeFilter<$PrismaModel> | $Enums.room_type
   }
 
+  export type Enummember_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.member_type | Enummember_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnummember_typeFilter<$PrismaModel> | $Enums.member_type
+  }
+
+  export type EnumpaceFilter<$PrismaModel = never> = {
+    equals?: $Enums.pace | EnumpaceFieldRefInput<$PrismaModel>
+    in?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    not?: NestedEnumpaceFilter<$PrismaModel> | $Enums.pace
+  }
+
   export type ChatListRelationFilter = {
     every?: chatWhereInput
     some?: chatWhereInput
@@ -11007,13 +11130,16 @@ export namespace Prisma {
     highest_bid?: SortOrder
     status?: SortOrder
     room_type?: SortOrder
-    start_time?: SortOrder
+    blinds?: SortOrder
+    member?: SortOrder
+    roompace?: SortOrder
   }
 
   export type roomAvgOrderByAggregateInput = {
     id?: SortOrder
     creatorid?: SortOrder
     highest_bid?: SortOrder
+    blinds?: SortOrder
   }
 
   export type roomMaxOrderByAggregateInput = {
@@ -11022,7 +11148,9 @@ export namespace Prisma {
     highest_bid?: SortOrder
     status?: SortOrder
     room_type?: SortOrder
-    start_time?: SortOrder
+    blinds?: SortOrder
+    member?: SortOrder
+    roompace?: SortOrder
   }
 
   export type roomMinOrderByAggregateInput = {
@@ -11031,13 +11159,16 @@ export namespace Prisma {
     highest_bid?: SortOrder
     status?: SortOrder
     room_type?: SortOrder
-    start_time?: SortOrder
+    blinds?: SortOrder
+    member?: SortOrder
+    roompace?: SortOrder
   }
 
   export type roomSumOrderByAggregateInput = {
     id?: SortOrder
     creatorid?: SortOrder
     highest_bid?: SortOrder
+    blinds?: SortOrder
   }
 
   export type Enumroom_statusWithAggregatesFilter<$PrismaModel = never> = {
@@ -11058,6 +11189,26 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumroom_typeFilter<$PrismaModel>
     _max?: NestedEnumroom_typeFilter<$PrismaModel>
+  }
+
+  export type Enummember_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.member_type | Enummember_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnummember_typeWithAggregatesFilter<$PrismaModel> | $Enums.member_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnummember_typeFilter<$PrismaModel>
+    _max?: NestedEnummember_typeFilter<$PrismaModel>
+  }
+
+  export type EnumpaceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.pace | EnumpaceFieldRefInput<$PrismaModel>
+    in?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    not?: NestedEnumpaceWithAggregatesFilter<$PrismaModel> | $Enums.pace
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumpaceFilter<$PrismaModel>
+    _max?: NestedEnumpaceFilter<$PrismaModel>
   }
 
   export type RoomScalarRelationFilter = {
@@ -11417,6 +11568,14 @@ export namespace Prisma {
     set?: $Enums.room_type
   }
 
+  export type Enummember_typeFieldUpdateOperationsInput = {
+    set?: $Enums.member_type
+  }
+
+  export type EnumpaceFieldUpdateOperationsInput = {
+    set?: $Enums.pace
+  }
+
   export type chatUpdateManyWithoutRoomNestedInput = {
     create?: XOR<chatCreateWithoutRoomInput, chatUncheckedCreateWithoutRoomInput> | chatCreateWithoutRoomInput[] | chatUncheckedCreateWithoutRoomInput[]
     connectOrCreate?: chatCreateOrConnectWithoutRoomInput | chatCreateOrConnectWithoutRoomInput[]
@@ -11718,6 +11877,20 @@ export namespace Prisma {
     not?: NestedEnumroom_typeFilter<$PrismaModel> | $Enums.room_type
   }
 
+  export type NestedEnummember_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.member_type | Enummember_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnummember_typeFilter<$PrismaModel> | $Enums.member_type
+  }
+
+  export type NestedEnumpaceFilter<$PrismaModel = never> = {
+    equals?: $Enums.pace | EnumpaceFieldRefInput<$PrismaModel>
+    in?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    not?: NestedEnumpaceFilter<$PrismaModel> | $Enums.pace
+  }
+
   export type NestedEnumroom_statusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.room_status | Enumroom_statusFieldRefInput<$PrismaModel>
     in?: $Enums.room_status[] | ListEnumroom_statusFieldRefInput<$PrismaModel>
@@ -11736,6 +11909,26 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumroom_typeFilter<$PrismaModel>
     _max?: NestedEnumroom_typeFilter<$PrismaModel>
+  }
+
+  export type NestedEnummember_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.member_type | Enummember_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.member_type[] | ListEnummember_typeFieldRefInput<$PrismaModel>
+    not?: NestedEnummember_typeWithAggregatesFilter<$PrismaModel> | $Enums.member_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnummember_typeFilter<$PrismaModel>
+    _max?: NestedEnummember_typeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumpaceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.pace | EnumpaceFieldRefInput<$PrismaModel>
+    in?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.pace[] | ListEnumpaceFieldRefInput<$PrismaModel>
+    not?: NestedEnumpaceWithAggregatesFilter<$PrismaModel> | $Enums.pace
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumpaceFilter<$PrismaModel>
+    _max?: NestedEnumpaceFilter<$PrismaModel>
   }
 
   export type NestedEnumroom_moveFilter<$PrismaModel = never> = {
@@ -12178,7 +12371,9 @@ export namespace Prisma {
     highest_bid?: number
     status?: $Enums.room_status
     room_type?: $Enums.room_type
-    start_time?: Date | string
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
     details?: detailsCreateNestedManyWithoutRoomInput
   }
 
@@ -12188,7 +12383,9 @@ export namespace Prisma {
     highest_bid?: number
     status?: $Enums.room_status
     room_type?: $Enums.room_type
-    start_time?: Date | string
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
     details?: detailsUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -12213,7 +12410,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
     details?: detailsUpdateManyWithoutRoomNestedInput
   }
 
@@ -12223,7 +12422,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
     details?: detailsUncheckedUpdateManyWithoutRoomNestedInput
   }
 
@@ -12232,7 +12433,9 @@ export namespace Prisma {
     highest_bid?: number
     status?: $Enums.room_status
     room_type?: $Enums.room_type
-    start_time?: Date | string
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
     chat?: chatCreateNestedManyWithoutRoomInput
   }
 
@@ -12242,7 +12445,9 @@ export namespace Prisma {
     highest_bid?: number
     status?: $Enums.room_status
     room_type?: $Enums.room_type
-    start_time?: Date | string
+    blinds: number
+    member: $Enums.member_type
+    roompace: $Enums.pace
     chat?: chatUncheckedCreateNestedManyWithoutRoomInput
   }
 
@@ -12267,7 +12472,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
     chat?: chatUpdateManyWithoutRoomNestedInput
   }
 
@@ -12277,7 +12484,9 @@ export namespace Prisma {
     highest_bid?: IntFieldUpdateOperationsInput | number
     status?: Enumroom_statusFieldUpdateOperationsInput | $Enums.room_status
     room_type?: Enumroom_typeFieldUpdateOperationsInput | $Enums.room_type
-    start_time?: DateTimeFieldUpdateOperationsInput | Date | string
+    blinds?: IntFieldUpdateOperationsInput | number
+    member?: Enummember_typeFieldUpdateOperationsInput | $Enums.member_type
+    roompace?: EnumpaceFieldUpdateOperationsInput | $Enums.pace
     chat?: chatUncheckedUpdateManyWithoutRoomNestedInput
   }
 

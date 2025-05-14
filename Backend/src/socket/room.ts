@@ -1,8 +1,9 @@
 import WebSocket from "ws";
-import { Player_Join_Room, Room_Allocation, Ws_map, Ws_Queue } from "../game/types";
+import { Player_Join_Room, Room, Room_Allocation, Ws_map, Ws_Queue } from "../game/types";
 import { get_room_ws } from "../game/utils";
 import { Servererror } from "../middleware/error_handling";
 import { get_playergame_cache, get_room_cache, set_playergame_cache, set_room_cache } from "../services/cache/game";
+import { leave_timer } from "../game/engine";
 
 
 
@@ -84,7 +85,6 @@ export const Join_Room=async (data:Player_Join_Room,playerid:number,client:WebSo
 
 export const Leave_Room=(playerid:number) => {
     try{
-        //timer
         const brodcast_data=new Map<number,WebSocket>();
         Ws_Queue.forEach((value,key)=>{
             const index=value.indexOf(playerid);
@@ -93,9 +93,7 @@ export const Leave_Room=(playerid:number) => {
                     if(value1.playerid!=playerid){
                         brodcast_data.set(value1.playerid,value1.socket);
                     }
-                })
-                value[index]=-1;
-                Ws_Queue.set(key,value);
+                });
             }
         });
         return brodcast_data;
@@ -136,4 +134,13 @@ export const halttime=(time:number,client:WebSocket,roomid:number,playerid:numbe
             resolve();
         }, time);
     });
+}
+
+
+export const create_room=async (data:Room)=>{
+    try{
+        
+    }catch(err){
+
+    }
 }

@@ -156,7 +156,9 @@ exports.Prisma.RoomScalarFieldEnum = {
   highest_bid: 'highest_bid',
   status: 'status',
   room_type: 'room_type',
-  start_time: 'start_time'
+  blinds: 'blinds',
+  member: 'member',
+  roompace: 'roompace'
 };
 
 exports.Prisma.ChatScalarFieldEnum = {
@@ -206,12 +208,23 @@ exports.transaction_type = exports.$Enums.transaction_type = {
 exports.room_status = exports.$Enums.room_status = {
   Not_Started: 'Not_Started',
   Live: 'Live',
-  Completed: 'Completed'
+  Completed: 'Completed',
+  Halt: 'Halt'
 };
 
 exports.room_type = exports.$Enums.room_type = {
   Private: 'Private',
   Public: 'Public'
+};
+
+exports.member_type = exports.$Enums.member_type = {
+  Shorthand: 'Shorthand',
+  Longhand: 'Longhand'
+};
+
+exports.pace = exports.$Enums.pace = {
+  Fast: 'Fast',
+  Standard: 'Standard'
 };
 
 exports.room_move = exports.$Enums.room_move = {

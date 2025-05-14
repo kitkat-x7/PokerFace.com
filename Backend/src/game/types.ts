@@ -1,5 +1,5 @@
 import WebSocket from "ws";
-type room_status="Live"|"Waiting"|"Not Started"|"Completed";
+type room_status="Live"|"Waiting"|"Not Started"|"Completed"|"Halt";
 export interface Game_Room{
     roomid:number,
     minsum:number,
@@ -11,7 +11,19 @@ export interface Game_Room{
     playercount:number,
     status:room_status,
     creatorid:number,
-    starttime:string
+    starttime:string,
+    last:number,
+}
+
+type roomtype="Public" | "Private";
+type membertype="Shorthand" | "Longhand";
+type pace="Fast" | "Standard";
+export interface Room{
+    roomid:number,
+    room_type:roomtype,
+    blinds:number,
+    member:membertype,
+    roompace:pace
 }
 
 export interface Player_Wallet_Details{
@@ -34,6 +46,7 @@ export interface Player_Game_Details{
     hand_result_type:number,
     values:number[]
 }
+
 type player_status="Spectetor"|"Player";
 export interface Game_Details{
     roomid:number,
@@ -111,3 +124,5 @@ export interface Bet_types{
     roomid:number,
     playerid:number,
 }
+
+export let player_room=new Map<number,number[]>;

@@ -69,11 +69,22 @@ enum room_status {
   Not_Started
   Live
   Completed
+  Halt
 }
 
 enum room_type {
   Private
   Public
+}
+
+enum member_type {
+  Shorthand
+  Longhand
+}
+
+enum pace {
+  Fast
+  Standard
 }
 
 model room {
@@ -82,7 +93,9 @@ model room {
   highest_bid Int         @default(0)
   status      room_status @default(Live)
   room_type   room_type   @default(Public)
-  start_time  DateTime    @default(now())
+  blinds      Int
+  member      member_type
+  roompace    pace
   chat        chat[]
   details     details[]
 }
